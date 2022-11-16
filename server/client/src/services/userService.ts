@@ -1,25 +1,25 @@
 import httpService from "./httpService";
 
-import { GetUserInfo, GetWorkspaceUser } from "@zuri/utilities";
+import { getUserInfo } from "@zuri/utilities";
 
 async function getCurrentUser(): Promise<User> {
 	try {
 		const {
-			0: { email: identifier }
-		} = await GetUserInfo();
+			user: { _id: id, email, display_name, user_name, image_url: avatar }
+		} = await getUserInfo();
 
-		const {
-			_id: id,
-			email,
-			display_name,
-			user_name,
-			image_url: avatar
-		} = await GetWorkspaceUser(identifier);
+		// const {
+		// 	_id: id,
+		// 	email,
+		// 	display_name,
+		// 	user_name,
+		// 	image_url: avatar
+		// } = await GetWorkspaceUser(identifier);
 
 		return {
 			id,
 			email,
-			name: display_name || user_name,
+			name: user_name || display_name,
 			avatar
 		};
 	} catch (error) {
